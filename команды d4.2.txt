@@ -1,0 +1,65 @@
+from news.models import * - импорт моделей из news
+alex = User.objects.create_user(username='alex') 
+egor = User.objects.create_user(username='egor') 
+Author.objects.create(authorUser=alex) 
+Author.objects.create(authorUser=egor) 
+(в моделях была ошибка, пришлось заново запускать миграцию. Забыл, что в базе остались пердыдущие записи, поэтом по итогу получились пользователи alex,egor, Alex, Egor. Хотелось бы узнать как удалять пользователей)
+Category.objects.create(name = 'Politic')
+Category.objects.create(name = 'Sport')
+Category.objects.create(name = 'IT')
+Category.objects.create(name = 'Education')
+Category.objects.create(name = 'Science')
+
+Post.objects.create(author=Author.objects.get(id=1), categoryType='AR', title='bored article', text='The bored article about politic')
+Post.objects.create(author=Author.objects.get(id=1), categoryType='NW', title='bored news', text='The bored news about politic')
+Post.objects.create(author=Author.objects.get(id=2), categoryType='AR', title='NOT bored article', text='The bored article about Science')
+
+politic = Category.objects.get(name='Politic')
+Post.objects.get(id=1).postCategory.add(politic)
+sport = Category.objects.get(name='Sport')
+Post.objects.get(id=2).postCategory.add(politic, sport)
+it = Category.objects.get(name='IT')
+science = Category.objects.get(name='Science')
+Post.objects.get(id=3).postCategory.add(science, sport, it)
+
+
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=User.objects.get(username='alex'), text='not interesting!!!')
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=User.objects.get(username='egor'), text='very bad!!!')
+Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=User.objects.get(username='alex'), text='Nice article, write more!!!')
+
+Post.objects.get(id=3).like()
+Post.objects.get(id=3).like()
+Post.objects.get(id=3).like()
+Post.objects.get(id=3).like()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=3).dislike()
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=2).like()
+(В количестве клайков и дислайков я запутался, но вроде как последовательность такая)
+
+auth = Author.objects.get(id=1) - определяем переменную auth для пользователя alex
+auth.update_rating() - обновляем рейтинг автора
+всё повторяем для пользователя egor. По хорошему надо всё сделать церез цикл, но пока не понял как. Обязательно додумаюсь.
+
+ 
+Post.objects.get(id=1).author.ratingAuthor - Просто смотрим рейтинг автора с id = 1
+Post.objects.get(id=1).createTime - время создания поста 1
+Post.objects.get(id=1).preview - превью поста
+
+
+bestAUTH = Post.objects.all().order_by('-rating')[0]
+print(f'лучшая статья у {bestAUTH.author.authorUser.username}a. Его рейтинг {bestAUTH.author.ratingAuthor}')- автор лучшего поста и его рейтинг.
+print(f'лучшая статья  {bestAUTH.createTime} автором {bestAUTH.author.authorUser.username}. Она называется {bestAUTH.title}, её рейтинг {bestAUTH.rating}, вот её превью: {bestAU
+    ...: TH.preview()}' ) Вывод вреени создания, автора, названия, рейтинга статьи и её превью.
+ 
+
+
+
+
+
+
+

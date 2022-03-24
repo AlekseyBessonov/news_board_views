@@ -39,6 +39,12 @@ class Post(models.Model):
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
 
+    def __str__(self):
+        return self.title
+
+    def __str__(self):
+        return self.author.authorUser
+
     def like(self):
         self.rating += 1
         self.save()
@@ -49,6 +55,9 @@ class Post(models.Model):
 
     def preview(self):
         return '{}...'.format(self.text[0:123])
+
+    def get_absolute_url(self):  # добавим абсолютный путь, чтобы после создания нас перебрасывало на страницу с товаром
+        return f'/news/{self.id}'
 
 
 class PostCategory(models.Model):

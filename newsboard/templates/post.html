@@ -1,31 +1,28 @@
-{% extends 'flatpages/default.html' %} 
+{% extends 'flatpages/default.html' %}
 {% load lex_filter %}
 
-{% block title %}
-Post
-{% endblock title %}
-
-
 {% block content %}
-    <h1>все новости</h1>
+    <h1>Новость № {{ post.id }}</h1>
 
     <h3>{{ time_now|date:'M d Y' }}</h3>
     <hr>
         <table align="center">
-        {% for post in post %}
+             <tr>
 
-            <tr>
-                <td>
-                    {{ post.title|censor }}
-                </td>
-                <td>
-                    {{ post.createTime|date:'M d Y' }} <!-- дописываем специальный фильтр, чтобы ограничить количество символов до 15. Все остальные символы превратятся в многоточие. -->
-                </td>
-                <td>
-                    {{ post.text|truncatechars:50|censor}}
-                </td>
+                    {{ post.title }}
+
+             </tr>
+            <p>
+             <tr>
+                    {{ post.text|censor }}
+             </tr>
+            <p>
+                <tr>
+                    {{ post.createTime|date:'M d Y H:m' }}
 
             </tr>
-        {% endfor %}
+
+
+
         </table>
 {% endblock content %}

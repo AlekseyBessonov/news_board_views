@@ -1,5 +1,9 @@
 from django.forms import ModelForm
 from .models import Post
+from django.contrib.auth.models import User
+from django.shortcuts import redirect
+from django.contrib.auth.models import Group
+from django.contrib.auth.decorators import login_required
 
 
 # Создаём модельную форму
@@ -8,3 +12,9 @@ class NewsForm(ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'text', 'categoryType', 'author']
+
+class UserForm(ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['username', 'last_name', 'first_name', 'email']

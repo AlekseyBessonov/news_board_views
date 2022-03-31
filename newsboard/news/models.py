@@ -42,8 +42,8 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-    def __str__(self):
-        return self.author.authorUser
+  #  def __str__(self):
+  #      return self.author.authorUser
 
     def like(self):
         self.rating += 1
@@ -57,7 +57,7 @@ class Post(models.Model):
         return '{}...'.format(self.text[0:123])
 
     def get_absolute_url(self):  # добавим абсолютный путь, чтобы после создания нас перебрасывало на страницу с товаром
-        return f'/news/{self.id}'
+        return f'/{self.id}'
 
 
 class PostCategory(models.Model):
